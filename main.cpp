@@ -131,5 +131,4 @@ int main(int argc, char** argv){
     // Imprimimos el resultado por stdout.
     cout << resultado << endl;
     return 0;
-
 }
