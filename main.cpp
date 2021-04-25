@@ -74,7 +74,7 @@ int topdown_pd(int pos, int R_rem){
 
 int main(int argc, char** argv){
     // Leemos el input.
-    cin >> R_t >> n;
+    cin  >> n >> R_t;
     W.assign(n, 0);
     R.assign(n, 0);
     for (int i = 0; i < n; i++) cin >> W[i];
