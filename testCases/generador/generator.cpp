@@ -52,8 +52,8 @@ int main(int argc, char** argv){
             string filename = "n" + to_string(points[i]) + "_" + to_string(j) + ".in";
             ofstream out(path + "/" + filename);
 
-            out << points[i] << " " << r_tubo;
-            for(int k=0; k<points[i]; k++) out << "\n" << distrib(gen) << " " << distrib(gen);
+            out << points[i] << " " << r_tubo << "\n";
+            for(int k=0; k<points[i]; k++) out << distrib(gen) << " " << distrib(gen) << "\n";
 
             indice << "\n" << distribucion + "," + to_string(j) + "," + to_string(points[i]) + "," + to_string(r_tubo) + "," + path + "/" + filename;
             out.close();
