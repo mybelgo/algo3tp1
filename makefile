@@ -1,2 +1,2 @@
 all:
-	g++ -o subsetsum subsetsum.cpp -O2 -std=c++14
+	g++ -o jumboTubos main.cpp -O2 -std=c++14

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int n;
+int n, R_t;
 vector<int> W, R;
 
 
@@ -61,13 +61,19 @@ int recu_bt(int pos, int sum, int R_rem){
     return max(sum1, sum2);
 }
 
-int topdown_pd(){
-    
+vector<vector <int> > memMat(n, vector<int>(R_t, -1)); //Matriz de memorizacion de nxR_t.
+int topdown_pd(int pos, int R_rem){
+    if(pos == n || R_rem <= 0) { //Si terminamos de recorrer todo o nos quedamos sin capacidad, nada mas para agregar.
+        return 0;
+    }
+    else { // El maximo entre agregar o no agregar la posicion actual. Considerando la resistencia actual adecuadamente.
+        return max(W[pos] + topdown_pd(pos+1, min(R_rem-W[pos], R[pos])),
+                    topdown_pd(pos+1, min(R_rem, R[pos])));
+    }
 }
 
 int main(int argc, char** argv){
     // Leemos el input.
-    int R_t;
     cin >> R_t >> n;
     W.assign(n, 0);
     R.assign(n, 0);
