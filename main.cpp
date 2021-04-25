@@ -61,18 +61,17 @@ int recu_bt(int pos, int sum, int R_rem){
     return max(sum1, sum2);
 }
 
-vector<vector <int> > memMat(n+1, vector<int>(R_t, -1)); //Matriz de memorizacion de nxR_t.
+vector<vector <int> > memMat; //Matriz de memorizacion de nx(R_t+1).
 int topdown_pd(int pos, int R_rem){
-    R_rem = max(R_rem, 0); // Para facilitar la memorizacion, R_rem es no negativo.
-    if(memMat[pos][R_rem] == -1) { // Si no ta memorizado, lo calculamos.
-        if(pos == n || R_rem == 0) { // Si terminamos de recorrer todo o nos quedamos sin capacidad, nada mas para agregar.
-            memMat[pos][R_rem] = 0;
-        }
-        else { // El maximo entre agregar o no agregar la posicion actual. Considerando la resistencia actual adecuadamente.
-            memMat[pos][R_rem] = max(W[pos] + topdown_pd(pos+1, min(R_rem-W[pos], R[pos])),
-                       topdown_pd(pos+1, min(R_rem, R[pos])));
-        }
+    if(pos == n || R_rem <= 0) { // Si terminamos de recorrer todo o nos quedamos sin capacidad, nada mas para agregar.
+        return 0;
     }
+    if(memMat[pos][R_rem] == -1) { // Si no ta memorizado, lo calculamos.
+         //El maximo entre agregar o no agregar la posicion actual. Considerando la resistencia actual adecuadamente.
+        memMat[pos][R_rem] = max(1 + topdown_pd(pos+1, min(R_rem-W[pos], R[pos])),
+                                 topdown_pd(pos+1, min(R_rem, R[pos])));
+    }
+    //cout << pos << " " << R_rem << " " << memMat[pos][R_rem] << endl;
     return memMat[pos][R_rem];
 }
 
@@ -84,8 +83,8 @@ int main(int argc, char** argv){
     for (int i = 0; i < n; i++) cin >> W[i] >> R[i];
 
     // Fuerza bruta
-    sol.assign(n, 0);
-    cout << topdown_pd(0, R_t);
+    memMat = vector<vector <int> >(n, vector<int>(R_t+1, -1)); //Chocloide para inicializar la matriz en -1.
+    cout << topdown_pd(0, R_t) << endl;
 
     // Backtracking
 
