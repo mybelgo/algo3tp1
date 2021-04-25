@@ -1,11 +1,18 @@
 #include <iostream>
 #include <vector>
+#include <map>
+#include <chrono>
 
 using namespace std;
 
+map<string, string> algoritmos_implementados = {
+    {"FB", "Fuerza Bruta"}, {"BT", "Backtracking con podas"}, {"BT-F", "Backtracking con poda por factibilidad"}, 
+    {"BT-O", "Backtracking con poda por optimalidad"}, {"DP", "Programacion dinámica"}
+};
+
+
 int n, R_t;
 vector<int> W, R;
-
 
 vector<int> sol; // Guarda la solucion parcial
 bool es_sol(){
@@ -67,7 +74,7 @@ int topdown_pd(int pos, int R_rem){
         return 0;
     }
     if(memMat[pos][R_rem] == -1) { // Si no ta memorizado, lo calculamos.
-         //El maximo entre agregar o no agregar la posicion actual. Considerando la resistencia actual adecuadamente.
+        //El maximo entre agregar o no agregar la posicion actual. Considerando la resistencia actual adecuadamente.
         memMat[pos][R_rem] = max(1 + topdown_pd(pos+1, min(R_rem-W[pos], R[pos])),
                                  topdown_pd(pos+1, min(R_rem, R[pos])));
     }
@@ -76,19 +83,53 @@ int topdown_pd(int pos, int R_rem){
 }
 
 int main(int argc, char** argv){
+	// Verificar que el algoritmo pedido exista.
+	if (argc < 2 || algoritmos_implementados.find(argv[1]) == algoritmos_implementados.end())
+	{
+		cerr << "Algoritmo no encontrado: " << argv[1] << endl;
+		cerr << "Los algoritmos existentes son: " << endl;
+		for (auto& alg_desc: algoritmos_implementados) cerr << "\t- " << alg_desc.first << ": " << alg_desc.second << endl;
+		return 0;
+	}
+	string algoritmo = argv[1];
+
     // Leemos el input.
     cin >> n >> R_t;
     W.assign(n, 0);
     R.assign(n, 0);
     for (int i = 0; i < n; i++) cin >> W[i] >> R[i];
 
-    // Fuerza bruta
-    memMat = vector<vector <int> >(n, vector<int>(R_t+1, -1)); //Chocloide para inicializar la matriz en -1.
-    cout << topdown_pd(0, R_t) << endl;
+    int resultado = -1;
+    auto start = chrono::steady_clock::now();
+	if (algoritmo == "FB")
+	{
+		//?
+	}
+	else if (algoritmo == "BT")
+	{
+		//?
+	}
+    else if (algoritmo == "BT-F")
+	{
+		clog << "BT-F NOT IMPLEMENTED" << endl;
+	}
+	else if (algoritmo == "BT-O")
+	{
+		clog << "BT-O NOT IMPLEMENTED" << endl;
+	}
+	else if (algoritmo == "DP")
+	{
+        memMat = vector<vector <int> >(n, vector<int>(R_t+1, -1)); // Chocloide para inicializar la matriz en 0.
+		resultado = topdown_pd(0, R_t); 
+	}
+	auto end = chrono::steady_clock::now();
+	double total_time = chrono::duration<double, milli>(end - start).count();
 
-    // Backtracking
+	// Imprimimos el tiempo de ejecución por stderr.
+	clog << total_time << endl;
 
-
-    // Programacion dinamica
+    // Imprimimos el resultado por stdout.
+    cout << resultado << endl;
+    return 0;
 
 }
