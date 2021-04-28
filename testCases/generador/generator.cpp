@@ -76,7 +76,7 @@ int main(int argc, char** argv){
 
 
                 out << nActual << " " << r_tubo << "\n";
-                for(int k=0; k<nActual; k++) out << distrib(gen) << " " << r_tubo << "\n";
+                for(int k=0; k<nActual; k++) out << 0 << " " << r_tubo << "\n";
 
                 indice << "\n" << distribucion + "," + to_string(j) + "," + to_string(nActual) + "," + to_string(r_tubo) + "," + path + "/" + filename;
             }
@@ -89,7 +89,7 @@ int main(int argc, char** argv){
                 out.open(path + "/" + filename);
 
                 out << nActual << " " << r_tubo << "\n";
-                for(int k=0; k<nActual; k++) out << distrib(gen) << " " << r_tubo << "\n";
+                for(int k=0; k<nActual; k++) out << r_tubo+1 << " " << r_tubo << "\n";
 
                 indice << "\n" << distribucion + "," + to_string(j) + "," + to_string(nActual) + "," + to_string(r_tubo) + "," + path + "/" + filename;
             }
