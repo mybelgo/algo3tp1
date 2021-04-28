@@ -15,10 +15,10 @@ int recu_fb(int pos, int sum, int R_rem)
 {
     // Caso base.
     if (pos == n)
-        return R_rem >= 0 ? sum : 0;
+        return R_rem < 0 ? 0 : sum;
 
     // Recursion
-    return max(recu_fb(pos + 1, sum, R_rem), recu_fb(pos + 1, sum + 1, min(R_rem, R[pos])));
+    return max(recu_fb(pos + 1, sum, R_rem), recu_fb(pos + 1, sum + 1, min(R_rem - W[pos], R[pos])));
 }
 
 bool poda_factibilidad = true; // define si la poda por factibilidad esta habilitada.
@@ -29,13 +29,10 @@ int recu_bt(int pos, int sum, int R_rem)
     // Caso base.
     if (pos == n)
     {
-        if (R_rem >= 0)
-        {
-            S = max(S, sum);
-            return sum;
-        }
-        else
+        if (R_rem < 0)
             return 0;
+        S = max(S, sum);
+        return sum;
     }
 
     // Poda por optimalidad.
@@ -53,16 +50,14 @@ int recu_bt(int pos, int sum, int R_rem)
 vector<vector<int>> memMat; //Matriz de memorizacion de nx(R_t+1).
 int topdown_pd(int pos, int R_rem)
 {
+    // Si terminamos de recorrer todo o nos quedamos sin capacidad, nada mas para agregar.
     if (pos == n || R_rem <= 0)
-    { // Si terminamos de recorrer todo o nos quedamos sin capacidad, nada mas para agregar.
         return 0;
-    }
+
+    // Si no ta memorizado, lo calculamos.
     if (memMat[pos][R_rem] == -1)
-    { // Si no ta memorizado, lo calculamos.
-        //El maximo entre agregar o no agregar la posicion actual. Considerando la resistencia actual adecuadamente.
-        memMat[pos][R_rem] = max(1 + topdown_pd(pos + 1, min(R_rem - W[pos], R[pos])),
-                                 topdown_pd(pos + 1, min(R_rem, R[pos])));
-    }
+        // El maximo entre agregar o no agregar la posicion actual. Considerando la resistencia actual adecuadamente.
+        memMat[pos][R_rem] = max(1 + topdown_pd(pos + 1, min(R_rem - W[pos], R[pos])), topdown_pd(pos + 1, min(R_rem, R[pos])));
     //cout << pos << " " << R_rem << " " << memMat[pos][R_rem] << endl;
     return memMat[pos][R_rem];
 }
