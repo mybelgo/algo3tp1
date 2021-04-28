@@ -56,8 +56,11 @@ int topdown_pd(int pos, int R_rem)
 
     // Si no ta memorizado, lo calculamos.
     if (memMat[pos][R_rem] == -1)
-        // El maximo entre agregar o no agregar la posicion actual. Considerando la resistencia actual adecuadamente.
-        memMat[pos][R_rem] = max(1 + topdown_pd(pos + 1, min(R_rem - W[pos], R[pos])), topdown_pd(pos + 1, min(R_rem, R[pos])));
+    { // Si no ta memorizado, lo calculamos.
+        //El maximo entre agregar o no agregar la posicion actual. Considerando la resistencia actual adecuadamente.
+        memMat[pos][R_rem] = max(1 + topdown_pd(pos + 1, min(R_rem - W[pos], R[pos])),
+                                 topdown_pd(pos + 1, R_rem));
+    }
     //cout << pos << " " << R_rem << " " << memMat[pos][R_rem] << endl;
     return memMat[pos][R_rem];
 }
