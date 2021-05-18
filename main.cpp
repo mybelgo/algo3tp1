@@ -51,7 +51,7 @@ vector<vector<int>> memMat; //Matriz de memorizacion de nx(R_t+1).
 int topdown_pd(int pos, int R_rem)
 {
     // Si terminamos de recorrer todo o nos quedamos sin capacidad, nada mas para agregar.
-    if (pos == n || R_rem <= 0)
+    if (pos == n || R_rem < 0)
         return 0;
 
     // Si no ta memorizado, lo calculamos.
