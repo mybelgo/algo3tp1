@@ -26,6 +26,8 @@ bool poda_optimalidad = true;  // define si la poda por optimalidad esta habilit
 int S = 0;                     // Mejor solucion hasta el momento.
 int recu_bt(int pos, int sum, int R_rem)
 {
+    cout << pos << " " << sum << " " << R_rem << endl;
+    //cout << "CB\n";
     // Caso base.
     if (pos == n)
     {
@@ -35,16 +37,23 @@ int recu_bt(int pos, int sum, int R_rem)
         return sum;
     }
 
+    //cout << "P O\n";
     // Poda por optimalidad.
-    if (poda_factibilidad && S >= sum + (n - pos))
+    if (poda_optimalidad && (S >= sum + (n - pos))) {
+        cout << "Poda O.\n";
         return 0;
-
+    }
+    
+    //cout << "P F\n";
     // Poda por factibilidad.
-    if (poda_optimalidad && R_rem < 0)
+    if (poda_factibilidad && (R_rem < 0)) {
+        cout << "Poda F.\n";
         return 0;
+    }
 
+    //cout << "RECU\n";
     // Recursion
-    return max(recu_fb(pos + 1, sum, R_rem), recu_fb(pos + 1, sum + 1, min(R_rem - W[pos], R[pos])));
+    return max(recu_bt(pos + 1, sum, R_rem), recu_bt(pos + 1, sum + 1, min(R_rem - W[pos], R[pos])));
 }
 
 vector<vector<int>> memMat; //Matriz de memorizacion de nx(R_t+1).

@@ -3,7 +3,8 @@
         "chrono": "cpp",
         "ostream": "cpp",
         "iosfwd": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "iostream": "cpp"
     },
     "jupyter.jupyterServerType": "local"
 }
